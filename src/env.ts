@@ -1,62 +1,50 @@
-const nextEnvRaw = {
-  NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK,
-  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  NEXT_PUBLIC_SUPABASE_AUTH_REDIRECT_URL:
-    process.env.NEXT_PUBLIC_SUPABASE_AUTH_REDIRECT_URL,
-  NEXT_PUBLIC_SUPABASE_WISHLIST_URL:
-    process.env.NEXT_PUBLIC_SUPABASE_WISHLIST_URL,
-  NEXT_PUBLIC_SUPABASE_WISHLIST_ANON_KEY:
-    process.env.NEXT_PUBLIC_SUPABASE_WISHLIST_ANON_KEY,
-  NEXT_PUBLIC_WALLET_URL: process.env.NEXT_PUBLIC_WALLET_URL,
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-  NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
-  NEXT_PUBLIC_EXCHANGE_URL: process.env.NEXT_PUBLIC_EXCHANGE_URL,
-  NEXT_PUBLIC_BLOCK_EXPLORER_URL: process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL,
-  NEXT_PUBLIC_SCL_NODE_URL: process.env.NEXT_PUBLIC_SCL_NODE_URL,
-  NEXT_PUBLIC_EXPLORER_APP_URL: process.env.NEXT_PUBLIC_EXPLORER_APP_URL,
-  NEXT_PUBLIC_USE_MOCK_API: process.env.NEXT_PUBLIC_USE_MOCK_API,
-  NEXT_PUBLIC_DOMAIN_NFT_CONTRACT_ID:
-    process.env.NEXT_PUBLIC_DOMAIN_NFT_CONTRACT_ID,
-  NEXT_PUBLIC_TOKEN_FAUCET_CONTRACT_ID:
-    process.env.NEXT_PUBLIC_TOKEN_FAUCET_CONTRACT_ID,
-} as const;
+// env.ts — safe for Vercel builds without all vars set.
+// Required vars (Supabase, wallet) will surface errors at runtime, not build time.
 
-type NextEnvKey = keyof typeof nextEnvRaw;
+export const NEXT_PUBLIC_NETWORK =
+  process.env.NEXT_PUBLIC_NETWORK ?? "mainnet";
 
-const missing = (Object.keys(nextEnvRaw) as NextEnvKey[]).filter(
-  (key) => nextEnvRaw[key] === undefined || nextEnvRaw[key] === ""
-);
+export const NEXT_PUBLIC_SUPABASE_URL =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 
-if (missing.length > 0) {
-  throw new Error(
-    `Missing or empty NEXT_* environment variables: ${missing.join(", ")}`
-  );
-}
+export const NEXT_PUBLIC_SUPABASE_ANON_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
-const nextEnv = nextEnvRaw as { [K in NextEnvKey]: string };
-
-export const NEXT_PUBLIC_NETWORK = nextEnv.NEXT_PUBLIC_NETWORK;
-export const NEXT_PUBLIC_SUPABASE_URL = nextEnv.NEXT_PUBLIC_SUPABASE_URL;
-export const NEXT_PUBLIC_SUPABASE_ANON_KEY = nextEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 export const NEXT_PUBLIC_SUPABASE_AUTH_REDIRECT_URL =
-  nextEnv.NEXT_PUBLIC_SUPABASE_AUTH_REDIRECT_URL;
+  process.env.NEXT_PUBLIC_SUPABASE_AUTH_REDIRECT_URL ?? "";
+
 export const NEXT_PUBLIC_SUPABASE_WISHLIST_URL =
-  nextEnv.NEXT_PUBLIC_SUPABASE_WISHLIST_URL;
+  process.env.NEXT_PUBLIC_SUPABASE_WISHLIST_URL ?? "";
+
 export const NEXT_PUBLIC_SUPABASE_WISHLIST_ANON_KEY =
-  nextEnv.NEXT_PUBLIC_SUPABASE_WISHLIST_ANON_KEY;
-export const NEXT_PUBLIC_WALLET_URL = nextEnv.NEXT_PUBLIC_WALLET_URL;
+  process.env.NEXT_PUBLIC_SUPABASE_WISHLIST_ANON_KEY ?? "";
+
+export const NEXT_PUBLIC_WALLET_URL =
+  process.env.NEXT_PUBLIC_WALLET_URL ?? "";
+
 export const NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY =
-  nextEnv.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-export const NEXT_PUBLIC_BASE_URL = nextEnv.NEXT_PUBLIC_BASE_URL;
-export const NEXT_PUBLIC_EXCHANGE_URL = nextEnv.NEXT_PUBLIC_EXCHANGE_URL;
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "";
+
+export const NEXT_PUBLIC_BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+
+export const NEXT_PUBLIC_EXCHANGE_URL =
+  process.env.NEXT_PUBLIC_EXCHANGE_URL ?? "";
+
 export const NEXT_PUBLIC_BLOCK_EXPLORER_URL =
-  nextEnv.NEXT_PUBLIC_BLOCK_EXPLORER_URL;
-export const NEXT_PUBLIC_SCL_NODE_URL = nextEnv.NEXT_PUBLIC_SCL_NODE_URL;
-export const NEXT_PUBLIC_EXPLORER_APP_URL = nextEnv.NEXT_PUBLIC_EXPLORER_APP_URL;
-export const NEXT_PUBLIC_USE_MOCK_API = nextEnv.NEXT_PUBLIC_USE_MOCK_API;
+  process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL ?? "";
+
+export const NEXT_PUBLIC_SCL_NODE_URL =
+  process.env.NEXT_PUBLIC_SCL_NODE_URL ?? "";
+
+export const NEXT_PUBLIC_EXPLORER_APP_URL =
+  process.env.NEXT_PUBLIC_EXPLORER_APP_URL ?? "";
+
+export const NEXT_PUBLIC_USE_MOCK_API =
+  process.env.NEXT_PUBLIC_USE_MOCK_API ?? "true";
+
 export const NEXT_PUBLIC_DOMAIN_NFT_CONTRACT_ID =
-  nextEnv.NEXT_PUBLIC_DOMAIN_NFT_CONTRACT_ID;
+  process.env.NEXT_PUBLIC_DOMAIN_NFT_CONTRACT_ID ?? "";
+
 export const NEXT_PUBLIC_TOKEN_FAUCET_CONTRACT_ID =
-  nextEnv.NEXT_PUBLIC_TOKEN_FAUCET_CONTRACT_ID;
+  process.env.NEXT_PUBLIC_TOKEN_FAUCET_CONTRACT_ID ?? "";
