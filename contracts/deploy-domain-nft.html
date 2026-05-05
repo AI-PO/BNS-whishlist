@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bitcoin Names NFT Deployer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, rgba(206, 180, 130, 0.28), transparent 32%),
+        linear-gradient(180deg, #f4ecdf 0%, #e3d4be 100%);
+      color: #23180f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 28px 16px 48px;
+    }
+
+    .shell {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4.2vw, 3.4rem);
+      text-align: center;
+    }
+
+    .subtitle {
+      margin: 10px auto 28px;
+      max-width: 680px;
+      text-align: center;
+      opacity: 0.72;
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+
+    .panel,
+    .log-panel,
+    .wallet-panel,
+    .banner {
+      background: rgba(255, 251, 245, 0.92);
+      border: 1px solid rgba(76, 51, 28, 0.14);
+      border-radius: 20px;
+      box-shadow: 0 18px 50px rgba(64, 41, 18, 0.09);
+    }
+
+    .banner,
+    .wallet-panel,
+    .panel,
+    .log-panel {
+      padding: 18px 20px;
+    }
+
+    .banner {
+      display: none;
+      margin-bottom: 16px;
+      color: #8c2212;
+      background: #fff0ec;
+      border-color: rgba(140, 34, 18, 0.2);
+    }
+
+    .wallet-panel {
+      display: none;
+      margin-bottom: 16px;
+      font-size: 0.92rem;
+    }
+
+    .panel {
+      padding: 24px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 1.32rem;
+    }
+
+    .panel-desc {
+      margin: 0 0 18px;
+      opacity: 0.68;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .chip {
+      font-size: 0.74rem;
+      font-family: monospace;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(76, 51, 28, 0.18);
+      background: #f1e3c9;
+      color: #6f4720;
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .chip.ok {
+      background: #d8efda;
+      color: #1f6b35;
+      border-color: rgba(31, 107, 53, 0.24);
+    }
+
+    .chip.pending {
+      background: #fff3cf;
+      color: #855f05;
+      border-color: rgba(133, 95, 5, 0.24);
+    }
+
+    .chip.busy {
+      background: #ece5ff;
+      color: #5531a8;
+      border-color: rgba(85, 49, 168, 0.24);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #654224;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(76, 51, 28, 0.2);
+      border-radius: 12px;
+      background: #fdf9f3;
+      padding: 11px 13px;
+      font: inherit;
+      color: inherit;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #85512d;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 20px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff9f0;
+      background: linear-gradient(135deg, #4d2e17 0%, #87522b 100%);
+      box-shadow: 0 10px 24px rgba(77, 46, 23, 0.22);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .hint {
+      font-size: 0.83rem;
+      opacity: 0.66;
+      line-height: 1.5;
+    }
+
+    .log-panel {
+      margin-top: 22px;
+    }
+
+    .log-panel h2 {
+      margin: 0 0 12px;
+      font-size: 0.98rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0.66;
+    }
+
+    #log {
+      min-height: 180px;
+      max-height: 320px;
+      overflow: auto;
+      border-radius: 12px;
+      background: #f4ede3;
+      padding: 14px;
+      font-family: Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .log-entry {
+      margin: 0;
+    }
+
+    .log-entry.ok {
+      color: #1f6b35;
+    }
+
+    .log-entry.err {
+      color: #8c2212;
+    }
+
+    .log-entry.warn {
+      color: #855f05;
+    }
+
+    @media (max-width: 720px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <h1>Bitcoin Names NFT Deployer</h1>
+    <p class="subtitle">
+      Browser deploy page for <code>domain_nft</code>. It creates the wallet from the configured mnemonic,
+      deploys the contract from local <code>artifacts/</code>, calls <code>init</code>, then calls
+      <code>set_price(10000000)</code>.
+    </p>
+
+    <div id="banner" class="banner"></div>
+    <div id="wallet-panel" class="wallet-panel"></div>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Deploy Domain NFT</h2>
+        <span id="chip-status" class="chip pending">ready</span>
+      </div>
+
+      <p class="panel-desc">
+        If you open this as <code>file://</code>, some browsers will block module or fetch behavior.
+        Serve the <code>contracts/</code> directory over HTTP for the most reliable result.
+      </p>
+
+      <div class="grid">
+        <div class="field full">
+          <label for="input-node-url">Node URL</label>
+          <input id="input-node-url" type="text" />
+        </div>
+
+        <div class="field full">
+          <label for="input-currency-contract-id">Payment Currency Contract ID</label>
+          <input
+            id="input-currency-contract-id"
+            type="text"
+            value="76e384358f6d131874682ce9ffa76a0b22cb5b861e0cdfed0c7f0a8db38bd70f"
+          />
+        </div>
+
+        <div class="field">
+          <label for="input-name">Collection Name</label>
+          <input id="input-name" type="text" value="Bitcoin Names" />
+        </div>
+
+        <div class="field">
+          <label for="input-symbol">Collection Symbol</label>
+          <input id="input-symbol" type="text" value="BNS" />
+        </div>
+
+        <div class="field full">
+          <label for="input-uri-prefix">URI Prefix</label>
+          <input id="input-uri-prefix" type="text" value="https://bitcoinnames.testnet/metadata/" />
+        </div>
+
+        <div class="field">
+          <label for="input-price">Price Per Year</label>
+          <input id="input-price" type="number" min="1" value="10000000" />
+        </div>
+
+        <div class="field">
+          <label for="input-fee">Fee (sats)</label>
+          <input id="input-fee" type="number" min="1" value="200" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="btn-deploy" class="btn" type="button">Deploy Domain NFT</button>
+        <span class="hint" id="result-hint">The deployed contract id will be shown in the log and status chip.</span>
+      </div>
+    </section>
+
+    <section class="log-panel">
+      <h2>Activity Log</h2>
+      <div id="log"></div>
+    </section>
+  </div>
+
+  <script type="module">
+    import sclWalletInit, { SclWallet } from './pkg/scl_wallet.js';
+
+    const WALLET_CONFIG = {
+      instanceName: 'domain-nft-browser-deployer',
+      password: 'changeme123',
+      mnemonic:
+        'transfer dragon october enact holiday bid interest favorite tell tape method annual',
+      network: 'testnet',
+      esploraUrl: 'https://testnet.darkfusion.tech',
+    };
+
+    const NODE_PROXY_TARGET =
+      typeof __SCL_NODE_PROXY_TARGET__ !== 'undefined'
+        ? __SCL_NODE_PROXY_TARGET__
+        : 'https://testscl.mimic.me';
+
+    const DEFAULT_NODE_URL =
+      window.location.protocol === 'file:'
+        ? NODE_PROXY_TARGET
+        : `${window.location.origin}/scl-node/`;
+
+    const $banner = document.getElementById('banner');
+    const $walletPanel = document.getElementById('wallet-panel');
+    const $log = document.getElementById('log');
+    const $chipStatus = document.getElementById('chip-status');
+    const $btnDeploy = document.getElementById('btn-deploy');
+    const $resultHint = document.getElementById('result-hint');
+    const $nodeUrl = document.getElementById('input-node-url');
+    const $currencyContractId = document.getElementById('input-currency-contract-id');
+    const $name = document.getElementById('input-name');
+    const $symbol = document.getElementById('input-symbol');
+    const $uriPrefix = document.getElementById('input-uri-prefix');
+    const $price = document.getElementById('input-price');
+    const $fee = document.getElementById('input-fee');
+
+    let wallet = null;
+    let walletInfo = null;
+    let busy = false;
+
+    $nodeUrl.value = DEFAULT_NODE_URL;
+
+    function log(message, level = 'info') {
+      const line = document.createElement('p');
+      line.className = `log-entry ${level}`;
+      line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      $log.appendChild(line);
+      $log.scrollTop = $log.scrollHeight;
+      console[level === 'err' ? 'error' : level === 'warn' ? 'warn' : 'log'](message);
+    }
+
+    function showBanner(message) {
+      $banner.textContent = message;
+      $banner.style.display = 'block';
+    }
+
+    function clearBanner() {
+      $banner.style.display = 'none';
+    }
+
+    function setChip(text, status = 'pending') {
+      $chipStatus.textContent = text;
+      $chipStatus.className = `chip ${status}`;
+      $chipStatus.title = text;
+    }
+
+    function setBusy(nextBusy) {
+      busy = nextBusy;
+      $btnDeploy.disabled = busy;
+      if (busy) {
+        setChip('deploying...', 'busy');
+      }
+    }
+
+    function unwrapResult(raw, label) {
+      let parsed;
+      try {
+        parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      } catch {
+        throw new Error(`${label}: could not parse response: ${String(raw)}`);
+      }
+      if (parsed && parsed.Error) {
+        throw new Error(`${label} failed: ${parsed.Error}`);
+      }
+      return parsed && parsed.Result !== undefined ? parsed.Result : parsed;
+    }
+
+    function wait(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function ensureWalletReady() {
+      if (walletInfo) {
+        renderWalletInfo();
+        return walletInfo;
+      }
+
+      if (!wallet) {
+        await sclWalletInit();
+        wallet = new SclWallet();
+      }
+
+      const createResult = await wallet.generate_wallet(
+        WALLET_CONFIG.instanceName,
+        WALLET_CONFIG.password,
+        WALLET_CONFIG.mnemonic,
+      );
+      log(`generate_wallet: ${createResult}`);
+
+      const initResult = await wallet.init(
+        WALLET_CONFIG.instanceName,
+        WALLET_CONFIG.password,
+        WALLET_CONFIG.network,
+        WALLET_CONFIG.esploraUrl,
+      );
+      log(`wallet init: ${initResult}`);
+
+      const syncResult = await wallet.sync();
+      const syncParsed = JSON.parse(syncResult);
+      if (syncParsed.Error) {
+        throw new Error(`sync failed: ${syncParsed.Error}`);
+      }
+
+      log('wallet synced', 'ok');
+      walletInfo = unwrapResult(wallet.get_public_key(), 'get_public_key');
+      renderWalletInfo();
+      log(`wallet address: ${walletInfo.address}`, 'ok');
+      return walletInfo;
+    }
+
+    function renderWalletInfo() {
+      if (!walletInfo) {
+        return;
+      }
+
+      $walletPanel.style.display = 'block';
+      $walletPanel.innerHTML =
+        `<strong>Wallet ready</strong> — address: <code>${walletInfo.address}</code> &nbsp; network: <code>${walletInfo.network}</code>`;
+    }
+
+    async function loadContractConfig() {
+      let meta;
+      let abi;
+      let hex;
+
+      try {
+        const [metaRes, abiRes, hexRes] = await Promise.all([
+          fetch('./artifacts/domain_nft.meta.json'),
+          fetch('./artifacts/domain_nft.abi.json'),
+          fetch('./artifacts/domain_nft.hex'),
+        ]);
+
+        if (!metaRes.ok || !abiRes.ok || !hexRes.ok) {
+          throw new Error('one or more artifact requests failed');
+        }
+
+        meta = await metaRes.json();
+        abi = await abiRes.json();
+        hex = (await hexRes.text()).trim();
+      } catch (error) {
+        throw new Error(`Could not load domain_nft artifacts: ${error.message}`);
+      }
+
+      return {
+        bytecodeHex: hex,
+        abi,
+        ...meta,
+      };
+    }
+
+    async function deployContract(nodeUrl, feeSats) {
+      const cfg = await loadContractConfig();
+      log('deploying domain_nft...');
+
+      const response = await wallet.scl_vm_contract_deploy(
+        nodeUrl,
+        cfg.bytecodeHex,
+        JSON.stringify(cfg.abi),
+        JSON.stringify(cfg.function_offsets),
+        JSON.stringify(cfg.function_offset_to_locals),
+        JSON.stringify(cfg.constants),
+        feeSats,
+      );
+
+      const result = unwrapResult(response, 'scl_vm_contract_deploy');
+      if (!result.contract_id) {
+        throw new Error('No contract_id returned from deploy');
+      }
+
+      log(`domain_nft deployed: ${result.contract_id}`, 'ok');
+      return result.contract_id;
+    }
+
+    async function callWrite(nodeUrl, feeSats, contractId, functionName, args) {
+      log(`calling ${functionName} on ${contractId.slice(0, 12)}...`);
+      const response = await wallet.scl_vm_contract_call(
+        nodeUrl,
+        contractId,
+        functionName,
+        JSON.stringify(args),
+        false,
+        feeSats,
+      );
+
+      const result = unwrapResult(response, `scl_vm_contract_call(${functionName})`);
+      log(`${functionName} returned: ${JSON.stringify(result)}`, 'ok');
+      return result;
+    }
+
+    async function handleDeploy() {
+      clearBanner();
+
+      const nodeUrl = $nodeUrl.value.trim();
+      const currencyContractId = $currencyContractId.value.trim();
+      const name = $name.value.trim();
+      const symbol = $symbol.value.trim();
+      const uriPrefix = $uriPrefix.value.trim();
+      const pricePerYear = Number.parseInt($price.value, 10);
+      const feeValue = Number.parseInt($fee.value, 10);
+
+      if (!nodeUrl) {
+        showBanner('Node URL is required.');
+        return;
+      }
+      if (!currencyContractId) {
+        showBanner('Payment currency contract id is required.');
+        return;
+      }
+      if (!name) {
+        showBanner('Collection name is required.');
+        return;
+      }
+      if (!symbol) {
+        showBanner('Collection symbol is required.');
+        return;
+      }
+      if (!uriPrefix) {
+        showBanner('URI prefix is required.');
+        return;
+      }
+      if (!Number.isFinite(pricePerYear) || pricePerYear < 1) {
+        showBanner('Price per year must be a positive integer.');
+        return;
+      }
+      if (!Number.isFinite(feeValue) || feeValue < 1) {
+        showBanner('Fee must be a positive integer.');
+        return;
+      }
+
+      const feeSats = BigInt(feeValue);
+
+      setBusy(true);
+
+      try {
+        await ensureWalletReady();
+        const contractId = await deployContract(nodeUrl, feeSats);
+
+        log('waiting 1s before init...', 'warn');
+        await wait(1000);
+
+        await callWrite(nodeUrl, feeSats, contractId, 'init', [
+          { type: 'str', value: walletInfo.address },
+          { type: 'str', value: name },
+          { type: 'str', value: symbol },
+          { type: 'str', value: uriPrefix },
+          { type: 'str', value: currencyContractId },
+        ]);
+
+        log('waiting 1s before set_price...', 'warn');
+        await wait(1000);
+
+        await callWrite(nodeUrl, feeSats, contractId, 'set_price', [
+          { type: 'int', value: pricePerYear },
+        ]);
+
+        setChip(contractId, 'ok');
+        $resultHint.textContent = `Deployed contract id: ${contractId}`;
+        log(`domain_nft ready: ${contractId}`, 'ok');
+      } catch (error) {
+        setChip('deploy failed', 'pending');
+        showBanner(error.message);
+        log(`deploy failed: ${error.message}`, 'err');
+      } finally {
+        $btnDeploy.disabled = false;
+        busy = false;
+      }
+    }
+
+    if (window.location.protocol === 'file:') {
+      log('Page opened via file://. If deployment fails to load modules or artifacts, serve contracts/ over HTTP instead.', 'warn');
+    }
+
+    $btnDeploy.addEventListener('click', handleDeploy);
+    log(`Page ready. Node target: ${NODE_PROXY_TARGET}`);
+    log('Click the button to deploy domain_nft.');
+  </script>
+</body>
+</html>

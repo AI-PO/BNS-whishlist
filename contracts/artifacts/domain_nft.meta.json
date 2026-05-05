@@ -1,0 +1,96 @@
+{
+  "constants": [
+    {
+      "Int": 0
+    },
+    {
+      "Int": 52560
+    },
+    {
+      "Int": 3
+    },
+    {
+      "Int": 16
+    },
+    {
+      "Int": 4
+    },
+    {
+      "Int": 210240
+    },
+    {
+      "Int": 1
+    },
+    {
+      "Str": ""
+    },
+    {
+      "Str": "token_exists"
+    },
+    {
+      "Str": "token_owner"
+    },
+    {
+      "Str": "token_expiry"
+    },
+    {
+      "Str": "transfer"
+    }
+  ],
+  "function_offsets": {
+    "token_uri": 1191,
+    "set_price": 537,
+    "get_expiry": 1261,
+    "pause": 1077,
+    "mint": 150,
+    "get_total_supply": 1253,
+    "_is_valid_registration_years": 118,
+    "buy_domain": 581,
+    "exists": 1219,
+    "get_price_per_year": 1245,
+    "owner_of": 1181,
+    "get_currency_contract_id": 1241,
+    "transfer_ownership": 1137,
+    "get_uri_prefix": 1237,
+    "is_paused": 1257,
+    "renew_domain": 815,
+    "is_registered": 1271,
+    "get_all_expiries": 1320,
+    "init": 0,
+    "get_all_tokens": 1313,
+    "get_owner": 1249,
+    "burn": 410,
+    "get_symbol": 1233,
+    "transfer": 281,
+    "unpause": 1107,
+    "get_name": 1229
+  },
+  "function_offset_to_locals": {
+    "1219": 1,
+    "1237": 0,
+    "1245": 0,
+    "1313": 0,
+    "281": 4,
+    "1249": 0,
+    "1253": 0,
+    "1257": 0,
+    "1137": 2,
+    "1107": 1,
+    "118": 1,
+    "1271": 1,
+    "1181": 1,
+    "150": 3,
+    "537": 2,
+    "410": 3,
+    "1320": 0,
+    "1229": 0,
+    "1077": 1,
+    "0": 5,
+    "1191": 1,
+    "1241": 0,
+    "815": 11,
+    "581": 7,
+    "1233": 0,
+    "1261": 1
+  }
+}

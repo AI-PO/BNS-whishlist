@@ -1,0 +1,836 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant state-active (&[data-state="active"]);
+@custom-variant state-inactive (&[data-state="inactive"]);
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-hubot-sans);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@theme {
+  --color-positive-green: #64efe6;
+  --color-negative-red: #cc4466;
+  --color-warning-yellow: #ffcda9;
+  --color-text-secondary: #737373;
+
+  --background-dialog-overlay: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+
+  --shadow-main: 0px 0px 8px 0px rgba(184, 178, 216, 0.4);
+
+  --text-8: 0.5rem;
+  --text-8-line-height: 1.125rem;
+  --text-10: 0.625rem;
+  --text-10-line-height: 0.84375rem;
+  --text-11: 0.6875rem;
+  --text-11-line-height: 0.875rem;
+  --text-12: 0.75rem;
+  --text-12-line-height: 1.125rem;
+  --text-13: 0.8125rem;
+  --text-13-line-height: 1.125rem;
+  --text-14: 0.875rem;
+  --text-14-line-height: 1.125rem;
+  --text-15: 0.9375rem;
+  --text-15-line-height: 1.125rem;
+  --text-16: 1rem;
+  --text-16-line-height: 1.375rem;
+  --text-18: 1.125rem;
+  --text-18-line-height: 1.375rem;
+  --text-20: 1.25rem;
+  --text-20-line-height: 1.75rem;
+  --text-22: 1.375rem;
+  --text-22-line-height: 1.875rem;
+  --text-24: 1.5rem;
+  --text-24-line-height: 1.8rem;
+  --text-26: 1.625rem;
+  --text-26-line-height: 1.95rem;
+  --text-28: 1.75rem;
+  --text-28-line-height: 2.125rem;
+  --text-30: 1.875rem;
+  --text-30-line-height: 2.5625rem;
+  --text-32: 2rem;
+  --text-32-line-height: 2.4rem;
+  --text-34: 2.125rem;
+  --text-34-line-height: 2.90625rem;
+  --text-40: 2.5rem;
+  --text-40-line-height: 3.375rem;
+  --text-42: 2.625rem;
+  --text-42-line-height: 2.625rem;
+}
+
+/* BTC Domains design tokens
+ * Light/white base aesthetic with dark "crypto" sections.
+ * Bitcoin orange (#f7931a) is the single accent across both modes.
+ */
+@theme {
+  /* Light surfaces (default page) */
+  --color-bn-page: #ffffff;
+  --color-bn-page-2: #fafafa;
+  --color-bn-page-3: #f4f4f4;
+  --color-bn-line: #ececec;
+  --color-bn-line-2: #d4d4d4;
+  --color-bn-ink: #0a0a0a;
+  --color-bn-ink-2: #3f3f3f;
+  --color-bn-ink-muted: #737373;
+  --color-bn-ink-dim: #a3a3a3;
+
+  /* Dark "crypto" surfaces (used inside dark sections + cards) */
+  --color-bn-bg: #0b0b0c;
+  --color-bn-surface: #131316;
+  --color-bn-surface-2: #1a1a1e;
+  --color-bn-border-subtle: #1f1f24;
+  --color-bn-border: #2a2a30;
+  --color-bn-border-mid: #383840;
+  --color-bn-border-light: #44444c;
+  --color-bn-text: #fafafa;
+  --color-bn-text-2: #b4b4b4;
+  --color-bn-text-muted: #898989;
+  --color-bn-text-dim: #5a5a62;
+
+  /* Bitcoin accent */
+  --color-bn-accent: #f7931a;
+  --color-bn-accent-hover: #ffa733;
+  --color-bn-accent-link: #d97a06;
+  --color-bn-accent-30: rgba(247, 147, 26, 0.3);
+  --color-bn-accent-15: rgba(247, 147, 26, 0.15);
+  --color-bn-accent-10: rgba(247, 147, 26, 0.1);
+  --color-bn-accent-06: rgba(247, 147, 26, 0.06);
+  --color-bn-danger: #cc4466;
+
+  --font-mono-bn: var(--font-source-code-pro), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Typography utilities — colour-agnostic so they inherit the section's color */
+@utility bn-eyebrow {
+  font-family: var(--font-mono-bn);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.33;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@utility bn-hero {
+  font-size: clamp(2.5rem, 7vw, 4.75rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+
+@utility bn-section-title {
+  font-size: clamp(1.875rem, 3.6vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+@utility bn-card-title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+}
+
+@utility bn-body {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+@utility bn-sub {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+/* Backgrounds */
+@utility bn-grid-light {
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 10, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility bn-grid-dark {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility bn-dot-grid {
+  background-image: radial-gradient(rgba(10, 10, 10, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility bn-grid-fade {
+  mask-image: radial-gradient(60% 60% at 50% 30%, #000 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(60% 60% at 50% 30%, #000 30%, transparent 80%);
+}
+
+@utility bn-orange-glow {
+  background: radial-gradient(
+    50% 45% at 50% 50%,
+    rgba(247, 147, 26, 0.18) 0%,
+    rgba(247, 147, 26, 0.06) 35%,
+    transparent 75%
+  );
+}
+
+@utility bn-orange-glow-soft {
+  background: radial-gradient(
+    50% 45% at 50% 50%,
+    rgba(247, 147, 26, 0.08) 0%,
+    rgba(247, 147, 26, 0.025) 40%,
+    transparent 78%
+  );
+}
+
+/* Animated orange shimmer used on accents */
+@utility bn-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(247, 147, 26, 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: bn-shimmer-slide 2.4s linear infinite;
+}
+
+@keyframes bn-shimmer-slide {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes bn-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(247, 147, 26, 0.45); }
+  70% { box-shadow: 0 0 0 12px rgba(247, 147, 26, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(247, 147, 26, 0); }
+}
+
+@utility bn-pulse-ring {
+  animation: bn-pulse-ring 2s ease-out infinite;
+}
+
+@keyframes bn-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@utility bn-marquee {
+  animation: bn-marquee 40s linear infinite;
+}
+
+.marketplace-table tr:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* neutral-200/50 ish */
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-hubot-sans);
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+}
+
+.background-main-page,
+.background-side-page {
+  position: relative;
+  background-color: var(--color-bn-page);
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 10, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 18% 0%, rgba(247, 147, 26, 0.08) 0%, transparent 42%),
+    radial-gradient(circle at 84% 12%, rgba(247, 147, 26, 0.06) 0%, transparent 36%);
+  background-size: 56px 56px, 56px 56px, auto, auto;
+  min-height: 100%;
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: transparent;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #000000;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #000000;
+  --destructive: #cc4466;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #f7931a;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  --button-bg-primary-linear-gradient: linear-gradient(
+    357deg,
+    rgba(252, 255, 245, 0.9) -14.9%,
+    rgba(217, 210, 255, 0.9) 132.16%
+  );
+  --button-bg-cta-linear-gradient: linear-gradient(
+    274deg,
+    rgba(164, 233, 251, 0.9) -3.56%,
+    rgba(171, 154, 255, 0.9) 107.02%
+  );
+
+  /* Navigation heights for proper layout calculations */
+  --header-height-mobile: 72px;
+  --header-height-desktop: 90px;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: #ffffff;
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .animate-bounce {
+    animation-duration: 2s;
+  }
+}
+
+/* Mobile viewport height fix for keyboard issues */
+:root {
+  --vh: 100vh;
+  --safe-area-bottom: 0px;
+  --browser-ui-height: 50px;
+}
+
+/* Safe area and dynamic viewport utilities */
+.min-h-screen-safe {
+  min-height: 100vh;
+}
+
+.h-screen-safe {
+  height: 100vh;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Desktop-specific overrides */
+@media screen and (min-width: 769px) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  main {
+    margin-bottom: 0;
+  }
+
+  body {
+    padding-bottom: 0;
+  }
+}
+
+.safe-area-container {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-area-bg {
+  /* Extend background to cover safe areas */
+  top: env(safe-area-inset-top, 0);
+  bottom: env(safe-area-inset-bottom, 0);
+  left: env(safe-area-inset-left, 0);
+  right: env(safe-area-inset-right, 0);
+}
+
+/* Legacy browser support */
+.h-screen-fixed {
+  height: 100vh;
+}
+
+.min-h-screen-fixed {
+  min-height: 100vh;
+}
+
+/* Mobile-specific dynamic height */
+@media screen and (max-width: 768px) {
+  .h-screen-fixed {
+    height: calc(var(--vh, 1vh) * 100);
+  }
+
+  .min-h-screen-fixed {
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* Prevent viewport resize when virtual keyboard appears */
+@supports (-webkit-touch-callout: none) {
+  @media screen and (max-width: 768px) {
+    .h-screen-fixed {
+      height: 100vh;
+      height: -webkit-fill-available;
+    }
+
+    .min-h-screen-fixed {
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+    }
+  }
+}
+
+/* Safe area support for devices with notches and browser UI */
+@supports (padding: env(safe-area-inset-top)) {
+  .h-screen-safe {
+    height: calc(
+      100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    height: calc(
+      var(--vh, 1vh) * 100 - env(safe-area-inset-top) -
+        env(safe-area-inset-bottom)
+    );
+  }
+
+  .min-h-screen-safe {
+    min-height: calc(
+      100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    min-height: calc(
+      var(--vh, 1vh) * 100 - env(safe-area-inset-top) -
+        env(safe-area-inset-bottom)
+    );
+  }
+
+  .safe-area-container {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .pb-safe {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 5px);
+  }
+}
+
+/* Enhanced mobile browser support */
+@media screen and (max-width: 768px) {
+  /* Use dynamic viewport height that accounts for browser UI */
+  .h-screen-safe,
+  .min-h-screen-safe {
+    height: calc(var(--vh, 1vh) * 100);
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+
+  /* Optimized padding for mobile browser bottom bars */
+  .pb-safe {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5px);
+  }
+
+  /* Ensure content doesn't get hidden behind browser UI */
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Remove bottom margin for mobile to eliminate gaps */
+  main {
+    margin-bottom: 0;
+  }
+}
+
+/* iOS specific adjustments */
+@supports (-webkit-appearance: none) {
+  @media screen and (max-width: 768px) {
+    .pb-safe {
+      /* iOS Safari bottom bar - reduced padding */
+      padding-bottom: 0px;
+      /* padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 15px); */
+    }
+  }
+}
+
+/* Landscape orientation and comprehensive safe area support */
+@media (orientation: landscape) {
+  .safe-area-container,
+  .h-screen-safe,
+  .min-h-screen-safe {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Landscape mode often has more browser UI, add extra bottom padding */
+  @media (max-height: 500px) {
+    .pb-safe {
+      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
+    }
+  }
+}
+
+/* beginning of button styles */
+
+@utility button {
+  color: #0a0a0a;
+  font-size: var(--text-16);
+  line-height: 1.25rem; /* leading-5 */
+  white-space: nowrap;
+  font-weight: 600;
+  transition: all 0.2s;
+  box-shadow: 0 10px 30px rgba(10, 10, 10, 0.08);
+  border-radius: 9999px; /* high-radius for pill shape */
+  padding: 0.75rem 1.5rem; /* px-6 py-3 */
+  border: 1px solid var(--color-bn-line-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(10, 10, 10, 0.12);
+    border-color: var(--color-bn-line);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(247, 147, 26, 0.28);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+@utility button-primary {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+
+  &:hover {
+    background-color: #171717;
+    border-color: #171717;
+  }
+}
+
+@utility button-secondary {
+  color: #0a0a0a;
+  background-color: rgba(255, 255, 255, 0.74);
+  border-color: #d4d4d4;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.92);
+  }
+}
+
+@utility button-cta {
+  background-color: #f7931a; /* Bitcoin Orange */
+  color: #ffffff;
+  border-color: rgba(247, 147, 26, 0.55);
+
+  &:hover {
+    background-color: #e58200;
+    border-color: rgba(229, 130, 0, 0.55);
+  }
+}
+
+@utility button-size-s {
+  height: auto;
+  /* padding: 0.5rem 1rem; */
+}
+@utility button-size-m {
+  height: 62px;
+  /* padding: 0.75rem 2rem; */
+}
+
+@utility dialog-overlay {
+  background-image: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  backdrop-filter: blur(8px);
+  z-index: 50;
+
+  @supports not (
+    (-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px))
+  ) {
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.6
+    ); /* fallback for unsupported browsers */
+  }
+}
+
+@utility dialog-content {
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.06);
+}
+
+/* end of button styles */
+
+/* Toast container override for dialog compatibility */
+.toast-container-override {
+  /* Ensure toasts appear above dialogs and prevent dialog click-outside behavior */
+  z-index: 99999 !important;
+  pointer-events: auto !important;
+}
+
+.toast-container-override .Toastify__toast {
+  /* Prevent toast clicks from triggering dialog outside click */
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 99999 !important;
+
+  /* Mobile-first responsive styling */
+  padding: 16px !important;
+  width: calc(100vw - 32px) !important;
+  max-width: 580px !important;
+  font-size: 14px !important;
+  margin: 0 16px !important;
+}
+
+/* Tablet and desktop styling */
+@media (min-width: 640px) {
+  .toast-container-override .Toastify__toast {
+    padding: 24px !important;
+    width: 580px !important;
+    font-size: 16px !important;
+    margin: 0 !important;
+  }
+}
+
+/* Mobile input optimizations */
+@media (max-width: 768px) {
+  /* Prevent zoom on input focus by ensuring font-size is at least 16px */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  textarea,
+  select {
+    transform: none !important;
+  }
+
+  /* Smooth scrolling for mobile */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* iOS Scrolling Fixes */
+@supports (-webkit-appearance: none) {
+  /* Target only iOS devices for scroll optimization */
+  @media screen and (-webkit-min-device-pixel-ratio: 1) {
+    /* Ensure smooth page scrolling on iOS */
+    html,
+    body {
+      -webkit-overflow-scrolling: touch;
+      /* Prevent overscroll behavior issues */
+      overscroll-behavior-y: auto;
+    }
+
+    /* Optimize table rendering on iOS */
+    .marketplace-table {
+      /* Force hardware acceleration for stable rendering */
+      transform: translateZ(0);
+      /* Prevent layout thrashing during scroll */
+      contain: layout style paint;
+    }
+  }
+}
+
+/* Marketplace specific scroll handling */
+.marketplace-scroll-container {
+  /* Override parent snap behavior for independent scrolling */
+  scroll-snap-type: none !important;
+  overscroll-behavior-y: contain;
+  /* Smooth scrolling for the list */
+  scroll-behavior: smooth;
+  /* Prevent touch events from bubbling to parent scroll */
+  touch-action: pan-y;
+}
+
+/* Ensure marketplace table doesn't interfere with snap scrolling on parent */
+.marketplace-table-wrapper {
+  /* Isolate scrolling within this container */
+  contain: layout style paint;
+  /* Prevent snap points from affecting this scroll area */
+  scroll-snap-align: none;
+  /* Create a new stacking context to isolate scrolling */
+  isolation: isolate;
+}
+
+/* Parent container adjustments for nested scrolling */
+.snap-container-with-nested-scroll {
+  /* Allow child elements to handle their own scrolling */
+  scroll-snap-stop: normal;
+}
+
+/* Marketplace section specific overrides */
+#marketplace {
+  /* Ensure this section can contain independent scrolling */
+  contain: layout style;
+  /* Allow nested scrolling within this section */
+  overscroll-behavior: contain;
+}
+
+@keyframes blob-float-1 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30vw, 20vh) scale(1.1); }
+  66% { transform: translate(-15vw, 40vh) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes blob-float-2 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(-25vw, -30vh) scale(0.9); }
+  66% { transform: translate(20vw, -15vh) scale(1.15); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes blob-float-3 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(25vw, -30vh) scale(1.1); }
+  66% { transform: translate(-25vw, 30vh) scale(0.85); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+/* KEYFRAMES FOR IDENTITY TEXT CONCEPTS */
+@keyframes floating-3d {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes liquid-shimmer {
+  to { background-position: 200% center; }
+}
+
+@keyframes text-glitch {
+  0% { text-shadow: 2px 0 0 rgba(247,147,26,0.5), -2px 0 0 rgba(0,180,255,0.5); transform: skewX(0deg); }
+  20% { text-shadow: -2px 0 0 rgba(247,147,26,0.5), 2px 0 0 rgba(0,180,255,0.5); transform: skewX(2deg); }
+  40% { text-shadow: 2px 0 0 rgba(247,147,26,0.5), -2px 0 0 rgba(0,180,255,0.5); transform: skewX(-2deg); }
+  60% { text-shadow: -2px 0 0 rgba(247,147,26,0.5), 2px 0 0 rgba(0,180,255,0.5); transform: skewX(1deg); }
+  80% { text-shadow: 2px 0 0 rgba(247,147,26,0.5), -2px 0 0 rgba(0,180,255,0.5); transform: skewX(-1deg); }
+  100% { text-shadow: -2px 0 0 rgba(247,147,26,0.5), 2px 0 0 rgba(0,180,255,0.5); transform: skewX(0deg); }
+}
+
+@keyframes shimmer-right-to-left {
+  0% { background-position: 0% center; }
+  100% { background-position: 100% center; }
+}

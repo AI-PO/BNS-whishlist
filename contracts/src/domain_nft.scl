@@ -1,0 +1,343 @@
+contract NonFungibleToken {
+    @writeable_by(init, transfer_ownership)
+    owner: Str;
+
+    @writeable_by(init)
+    name: Str;
+
+    @writeable_by(init)
+    symbol: Str;
+
+    @writeable_by(init)
+    uri_prefix: Str;
+
+    @writeable_by(init)
+    currency_contract_id: Str;
+
+    @writeable_by(init, set_price)
+    price_per_year: Int;
+
+    @writeable_by(init, mint, burn)
+    total_supply: Int;
+
+    @writeable_by(init, pause, unpause)
+    paused: Int;
+
+    @writeable_by(init)
+    initialised: Int;
+
+    const BLOCKS_PER_YEAR: Int = 52560;
+    const MIN_DOMAIN_LENGTH: Int = 3;
+    const MAX_DOMAIN_LENGTH: Int = 16;
+    const MAX_REGISTRATION_YEARS: Int = 4;
+    const MAX_REGISTRATION_BLOCKS: Int = 210240;
+
+    fn init(owner_addr: Str, token_name: Str, token_symbol: Str, token_uri_prefix: Str, payment_currency_contract_id: Str) {
+        if initialised == 1 {
+            return 0;
+        }
+        if owner_addr == "" || token_name == "" || token_symbol == "" || token_uri_prefix == "" || payment_currency_contract_id == "" {
+            return 0;
+        }
+
+        owner = owner_addr;
+        name = token_name;
+        symbol = token_symbol;
+        uri_prefix = token_uri_prefix;
+        currency_contract_id = payment_currency_contract_id;
+        price_per_year = 0;
+        total_supply = 0;
+        paused = 0;
+        initialised = 1;
+        return 1;
+    }
+
+    fn _is_valid_registration_years(years: Int) {
+        if years < 1 {
+            return 0;
+        }
+        if years > MAX_REGISTRATION_YEARS {
+            return 0;
+        }
+        return 1;
+    }
+
+    fn mint(to: Str, token_id: Str) {
+        let sender = SENDER_ADDRESS();
+        if paused == 1 {
+            return 0;
+        }
+        if sender != owner {
+            return 0;
+        }
+        if to == "" || token_id == "" {
+            return 0;
+        }
+        if MAP_GET("token_exists", token_id) == 1 {
+            return 0;
+        }
+
+        MAP_SET("token_owner", token_id, to);
+        MAP_SET("token_exists", token_id, 1);
+        MAP_SET("token_expiry", token_id, CONTEXT_BLOCK_HEIGHT() + BLOCKS_PER_YEAR);
+        total_supply = total_supply + 1;
+        return 1;
+    }
+
+    fn transfer(to: Str, token_id: Str) {
+        if paused == 1 {
+            return 0;
+        }
+        if MAP_GET("token_exists", token_id) != 1 {
+            return 0;
+        }
+        if to == "" {
+            return 0;
+        }
+        if MAP_GET("token_expiry", token_id) <= CONTEXT_BLOCK_HEIGHT() {
+            return 0;
+        }
+
+        let sender = SENDER_ADDRESS();
+        let current_owner = MAP_GET("token_owner", token_id);
+        if sender != current_owner {
+            return 0;
+        }
+        if to == current_owner {
+            return 0;
+        }
+
+        MAP_SET("token_owner", token_id, to);
+        return 1;
+    }
+
+    fn burn(token_id: Str) {
+        if paused == 1 {
+            return 0;
+        }
+        if MAP_GET("token_exists", token_id) != 1 {
+            return 0;
+        }
+
+        let sender = SENDER_ADDRESS();
+        let current_owner = MAP_GET("token_owner", token_id);
+        if sender != owner && sender != current_owner {
+            return 0;
+        }
+        MAP_SET("token_owner", token_id, "");
+        MAP_SET("token_exists", token_id, 0);
+        MAP_SET("token_expiry", token_id, 0);
+        total_supply = total_supply - 1;
+        return 1;
+    }
+
+    fn set_price(new_price_per_year: Int) {
+        let sender = SENDER_ADDRESS();
+        if sender != owner {
+            return 0;
+        }
+        if new_price_per_year <= 0 {
+            return 0;
+        }
+
+        price_per_year = new_price_per_year;
+        return 1;
+    }
+
+    fn buy_domain(token_id: Str, years: Int) {
+        if paused == 1 {
+            return 0;
+        }
+        if price_per_year <= 0 {
+            return 0;
+        }
+        if token_id == "" {
+            return 0;
+        }
+        if _is_valid_registration_years(years) != 1 {
+            return 0;
+        }
+
+        let current_expiry = MAP_GET("token_expiry", token_id);
+        if current_expiry > CONTEXT_BLOCK_HEIGHT() {
+            return 0;
+        }
+
+        let total_price = price_per_year * years;
+        if total_price <= 0 {
+            return 0;
+        }
+
+        let payment_success = CALL(currency_contract_id, "transfer", [CONTRACT_ID(), total_price]);
+        if payment_success != 1 {
+            return 0;
+        }
+
+        let sender = SENDER_ADDRESS();
+        let registration_blocks = years * BLOCKS_PER_YEAR;
+        if registration_blocks <= 0 {
+            return 0;
+        }
+
+        if MAP_GET("token_exists", token_id) != 1 {
+            MAP_SET("token_exists", token_id, 1);
+            total_supply = total_supply + 1;
+        }
+
+        MAP_SET("token_owner", token_id, sender);
+        MAP_SET("token_expiry", token_id, CONTEXT_BLOCK_HEIGHT() + registration_blocks);
+        return 1;
+    }
+
+    fn renew_domain(token_id: Str, years: Int) {
+        if paused == 1 {
+            return 0;
+        }
+        if price_per_year <= 0 {
+            return 0;
+        }
+        if MAP_GET("token_exists", token_id) != 1 {
+            return 0;
+        }
+        if _is_valid_registration_years(years) != 1 {
+            return 0;
+        }
+
+        let sender = SENDER_ADDRESS();
+        let current_owner = MAP_GET("token_owner", token_id);
+        if sender != current_owner {
+            return 0;
+        }
+
+        let current_expiry = MAP_GET("token_expiry", token_id);
+        let current_block = CONTEXT_BLOCK_HEIGHT();
+        if current_expiry <= current_block {
+            return 0;
+        }
+
+        let max_expiry = current_block + MAX_REGISTRATION_BLOCKS;
+
+        let total_price = price_per_year * years;
+        if total_price <= 0 {
+            return 0;
+        }
+
+        let payment_success = CALL(currency_contract_id, "transfer", [CONTRACT_ID(), total_price]);
+        if payment_success != 1 {
+            return 0;
+        }
+
+        let registration_blocks = years * BLOCKS_PER_YEAR;
+        if registration_blocks <= 0 {
+            return 0;
+        }
+
+        let new_expiry = current_expiry + registration_blocks;
+        if new_expiry > max_expiry {
+            return 0;
+        }
+
+        MAP_SET("token_expiry", token_id, new_expiry);
+        return 1;
+    }
+
+    fn pause() {
+        let sender = SENDER_ADDRESS();
+        if sender != owner {
+            return 0;
+        }
+        paused = 1;
+        return 1;
+    }
+
+    fn unpause() {
+        let sender = SENDER_ADDRESS();
+        if sender != owner {
+            return 0;
+        }
+        paused = 0;
+        return 1;
+    }
+
+    fn transfer_ownership(new_owner: Str) {
+        let sender = SENDER_ADDRESS();
+        if sender != owner {
+            return 0;
+        }
+        if new_owner == "" {
+            return 0;
+        }
+        owner = new_owner;
+        return 1;
+    }
+
+    fn owner_of(token_id: Str) {
+        return MAP_GET("token_owner", token_id);
+    }
+
+    fn token_uri(token_id: Str) {
+        if MAP_GET("token_exists", token_id) != 1 {
+            return "";
+        }
+
+        return uri_prefix + token_id;
+    }
+
+    fn exists(token_id: Str) {
+        return MAP_GET("token_exists", token_id);
+    }
+
+    fn get_name() {
+        return name;
+    }
+
+    fn get_symbol() {
+        return symbol;
+    }
+
+    fn get_uri_prefix() {
+        return uri_prefix;
+    }
+
+    fn get_currency_contract_id() {
+        return currency_contract_id;
+    }
+
+    fn get_price_per_year() {
+        return price_per_year;
+    }
+
+    fn get_owner() {
+        return owner;
+    }
+
+    fn get_total_supply() {
+        return total_supply;
+    }
+
+    fn is_paused() {
+        return paused;
+    }
+
+    fn get_expiry(token_id: Str) {
+        return MAP_GET("token_expiry", token_id);
+    }
+
+    fn is_registered(token_id: Str) {
+        if MAP_GET("token_exists", token_id) != 1 {
+            return 0;
+        }
+        if MAP_GET("token_expiry", token_id) <= CONTEXT_BLOCK_HEIGHT() {
+            return 0;
+        }
+        return 1;
+    }
+
+    fn get_all_tokens() {
+        return MAP_GET_ALL("token_owner");
+    }
+
+    fn get_all_expiries() {
+        return MAP_GET_ALL("token_expiry");
+    }
+}

@@ -1,0 +1,411 @@
+[
+  {
+    "inputs": [
+      {
+        "name": "owner_addr",
+        "type": "String"
+      },
+      {
+        "name": "token_name",
+        "type": "String"
+      },
+      {
+        "name": "token_symbol",
+        "type": "String"
+      },
+      {
+        "name": "token_uri_prefix",
+        "type": "String"
+      },
+      {
+        "name": "payment_currency_contract_id",
+        "type": "String"
+      }
+    ],
+    "name": "init",
+    "outputs": [],
+    "stateMutability": "init",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "years",
+        "type": "u64"
+      }
+    ],
+    "name": "_is_valid_registration_years",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "to",
+        "type": "String"
+      },
+      {
+        "name": "token_id",
+        "type": "String"
+      }
+    ],
+    "name": "mint",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "to",
+        "type": "String"
+      },
+      {
+        "name": "token_id",
+        "type": "String"
+      }
+    ],
+    "name": "transfer",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "token_id",
+        "type": "String"
+      }
+    ],
+    "name": "burn",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "new_price_per_year",
+        "type": "u64"
+      }
+    ],
+    "name": "set_price",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "token_id",
+        "type": "String"
+      },
+      {
+        "name": "years",
+        "type": "u64"
+      }
+    ],
+    "name": "buy_domain",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "token_id",
+        "type": "String"
+      },
+      {
+        "name": "years",
+        "type": "u64"
+      }
+    ],
+    "name": "renew_domain",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pause",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "unpause",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "new_owner",
+        "type": "String"
+      }
+    ],
+    "name": "transfer_ownership",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "write",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "token_id",
+        "type": "String"
+      }
+    ],
+    "name": "owner_of",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "token_id",
+        "type": "String"
+      }
+    ],
+    "name": "token_uri",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "token_id",
+        "type": "String"
+      }
+    ],
+    "name": "exists",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_name",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_symbol",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_uri_prefix",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_currency_contract_id",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_price_per_year",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_owner",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_total_supply",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "is_paused",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "token_id",
+        "type": "String"
+      }
+    ],
+    "name": "get_expiry",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "token_id",
+        "type": "String"
+      }
+    ],
+    "name": "is_registered",
+    "outputs": [
+      {
+        "name": "",
+        "type": "u64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_all_tokens",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_all_expiries",
+    "outputs": [
+      {
+        "name": "",
+        "type": "String"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

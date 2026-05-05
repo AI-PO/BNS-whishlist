@@ -1,0 +1,256 @@
+{
+  "domains": [
+    {
+      "id": 1,
+      "created_at": "2026-04-10T12:00:00Z",
+      "address": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+      "domain": "satoshi.btc",
+      "contract_id": "contract_abc123",
+      "expiry": "2027-04-10T12:00:00Z"
+    },
+    {
+      "id": 2,
+      "created_at": "2026-04-15T09:30:00Z",
+      "address": "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4",
+      "domain": "pizza.btc",
+      "contract_id": "contract_def456",
+      "expiry": "2027-04-15T09:30:00Z"
+    },
+    {
+      "id": 3,
+      "created_at": "2026-04-23T07:47:14.701Z",
+      "address": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "domain": "piti.btc",
+      "contract_id": "mock_nft_1776930434678",
+      "expiry": "2027-04-23T07:47:14.678Z"
+    },
+    {
+      "id": 4,
+      "created_at": "2026-04-23T13:06:55.782Z",
+      "address": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "domain": "bit.btc",
+      "contract_id": "mock_nft_1776949615766",
+      "expiry": "2027-04-23T13:06:55.766Z"
+    },
+    {
+      "id": 5,
+      "created_at": "2026-04-23T13:58:10.417Z",
+      "address": "tb1quasdy6gs0xm99u2pmnqxp276068dgfwpjc3v3e",
+      "domain": "pitixs.btc",
+      "contract_id": "mock_nft_1776952690393",
+      "expiry": "2027-04-23T13:58:10.393Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "created_at": "2026-04-10T12:00:00Z",
+      "address": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+      "transaction_id": "tx_abc123",
+      "domain_id": 1,
+      "email": "nakamoto@bitcoin.org",
+      "status": "completed",
+      "type": "purchase",
+      "domains": {
+        "domain": "satoshi.btc"
+      }
+    },
+    {
+      "id": 2,
+      "created_at": "2026-04-23T07:47:14.701Z",
+      "address": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "transaction_id": "mock_tx_1776930434701",
+      "domain_id": 3,
+      "email": "mocked@email.com",
+      "status": "processing",
+      "type": "purchase",
+      "domains": {
+        "domain": "piti.btc"
+      }
+    },
+    {
+      "id": 3,
+      "created_at": "2026-04-23T13:06:55.782Z",
+      "address": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "transaction_id": "mock_tx_1776949615782",
+      "domain_id": 4,
+      "email": "mocked@email.com",
+      "status": "processing",
+      "type": "purchase",
+      "domains": {
+        "domain": "bit.btc"
+      }
+    },
+    {
+      "id": 4,
+      "created_at": "2026-04-23T13:58:10.417Z",
+      "address": "tb1quasdy6gs0xm99u2pmnqxp276068dgfwpjc3v3e",
+      "transaction_id": "mock_tx_1776952690417",
+      "domain_id": 5,
+      "email": "mocked@email.com",
+      "status": "processing",
+      "type": "purchase",
+      "domains": {
+        "domain": "pitixs.btc"
+      }
+    }
+  ],
+  "listings": [
+    {
+      "id": 1,
+      "created_at": "2026-04-16T10:00:00Z",
+      "contract_id": "contract_list_xyz",
+      "price": 5000000,
+      "owner": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+      "name": "satoshi.btc",
+      "best_bid": 4500000,
+      "bid_count": 2,
+      "list_utxo": "abc123listutxo:0",
+      "order_id": "order_list_1",
+      "status": 1,
+      "domains": {
+        "id": 1,
+        "expiry": "2027-04-10T12:00:00Z"
+      },
+      "contractId": "contract_list_xyz",
+      "domain": "satoshi.btc",
+      "listingUtxo": "abc123listutxo:0",
+      "recAddress": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+      "bestBid": 4500000,
+      "orderId": "order_list_1",
+      "createdAt": "2026-04-16T10:00:00Z",
+      "bidCount": 2,
+      "supabaseListingId": 1,
+      "supabaseDomain": {
+        "id": 1,
+        "expiry": "2027-04-10T12:00:00Z"
+      },
+      "isPremium": false
+    },
+    {
+      "id": 2,
+      "created_at": "2026-04-23T12:50:35.781Z",
+      "contract_id": "mock_nft_1776930434678",
+      "list_utxo": "mock_listing_1776948635260:0",
+      "order_id": "mock_listing_1776948635260",
+      "price": 1200000000,
+      "owner": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "name": "piti.btc",
+      "best_bid": 0,
+      "bid_count": 0,
+      "status": 1,
+      "domains": {
+        "id": 3,
+        "expiry": "2027-04-23T07:47:14.678Z"
+      },
+      "contractId": "mock_nft_1776930434678",
+      "domain": "piti.btc",
+      "listingUtxo": "mock_listing_1776948635260:0",
+      "recAddress": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "bestBid": 0,
+      "orderId": "mock_listing_1776948635260",
+      "createdAt": "2026-04-23T12:50:35.781Z",
+      "bidCount": 0,
+      "supabaseListingId": 2,
+      "supabaseDomain": {
+        "id": 3,
+        "expiry": "2027-04-23T07:47:14.678Z"
+      },
+      "isPremium": false
+    },
+    {
+      "id": 3,
+      "created_at": "2026-04-23T13:07:14.921Z",
+      "contract_id": "mock_nft_1776949615766",
+      "list_utxo": "mock_listing_1776949634380:0",
+      "order_id": "mock_listing_1776949634380",
+      "price": 200000000,
+      "owner": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "name": "bit.btc",
+      "best_bid": 0,
+      "bid_count": 0,
+      "status": 0,
+      "domains": {
+        "id": 4,
+        "expiry": "2027-04-23T13:06:55.766Z"
+      },
+      "contractId": "mock_nft_1776949615766",
+      "domain": "bit.btc",
+      "listingUtxo": "mock_listing_1776949634380:0",
+      "recAddress": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "bestBid": 0,
+      "orderId": "mock_listing_1776949634380",
+      "createdAt": "2026-04-23T13:07:14.921Z",
+      "bidCount": 0,
+      "supabaseListingId": 3,
+      "supabaseDomain": {
+        "id": 4,
+        "expiry": "2027-04-23T13:06:55.766Z"
+      },
+      "isPremium": false
+    }
+  ],
+  "bids": [
+    {
+      "id": 1,
+      "created_at": "2026-04-17T11:00:00Z",
+      "contract_id": "contract_list_xyz",
+      "owner": "bc1qtestbidder123",
+      "bid_utxo": "def456bidutxo:0",
+      "list_utxo": "abc123listutxo:0",
+      "price": 4500000,
+      "status": 1,
+      "listings": {
+        "list_utxo": "abc123listutxo:0",
+        "name": "satoshi.btc",
+        "price": 5000000,
+        "domains": {
+          "id": 1,
+          "expiry": "2027-04-10T12:00:00Z"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "created_at": "2026-04-22T10:00:30.354Z",
+      "contract_id": "contract_list_xyz",
+      "list_utxo": "abc123listutxo:0",
+      "bid_utxo": "mock_bid_1776852029831",
+      "owner": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "price": 0,
+      "status": 0,
+      "listings": {
+        "list_utxo": "abc123listutxo:0",
+        "name": "domain_contract"
+      }
+    },
+    {
+      "id": 3,
+      "created_at": "2026-04-23T07:50:10.130Z",
+      "contract_id": "contract_list_xyz",
+      "list_utxo": "abc123listutxo:0",
+      "bid_utxo": "mock_bid_1776930609613",
+      "owner": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "price": 10000,
+      "status": 0,
+      "listings": {
+        "list_utxo": "abc123listutxo:0",
+        "name": "domain_contract"
+      }
+    },
+    {
+      "id": 4,
+      "created_at": "2026-04-23T13:09:11.260Z",
+      "contract_id": "contract_list_xyz",
+      "list_utxo": "abc123listutxo:0",
+      "bid_utxo": "mock_bid_1776949750729",
+      "owner": "tb1qh6ckge0q6f0r4fp649zw5kw64ws0ye76ae86sk",
+      "price": 30000,
+      "status": 0,
+      "listings": {
+        "list_utxo": "abc123listutxo:0",
+        "name": "domain_contract"
+      }
+    }
+  ]
+}
